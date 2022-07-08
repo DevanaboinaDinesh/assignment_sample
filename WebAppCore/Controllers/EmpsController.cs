@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebAppCore.Models;
 
 namespace WebAppCore.Controllers
 {
-    public class EmpsController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class EmpsController : ControllerBase
     {
         private readonly git_projectContext _context;
 
@@ -18,130 +20,99 @@ namespace WebAppCore.Controllers
             _context = context;
         }
 
-        // GET: Emps
-        public async Task<IActionResult> Index()
+        // GET: api/Emps
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Emp>>> GetEmp()
         {
-            return View(await _context.Emp.ToListAsync());
+            return await _context.Emp.ToListAsync();
         }
 
-        // GET: Emps/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: api/Emps/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Emp>> GetEmp(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var emp = await _context.Emp
-                .FirstOrDefaultAsync(m => m.Eid == id);
-            if (emp == null)
-            {
-                return NotFound();
-            }
-
-            return View(emp);
-        }
-
-        // GET: Emps/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Emps/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Eid,Ename,Edesign,Edoj")] Emp emp)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(emp);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(emp);
-        }
-
-        // GET: Emps/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var emp = await _context.Emp.FindAsync(id);
+
             if (emp == null)
             {
                 return NotFound();
             }
-            return View(emp);
+
+            return emp;
         }
 
-        // POST: Emps/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Eid,Ename,Edesign,Edoj")] Emp emp)
+        // PUT: api/Emps/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutEmp(int id, Emp emp)
         {
             if (id != emp.Eid)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            if (ModelState.IsValid)
+            _context.Entry(emp).State = EntityState.Modified;
+
+            try
             {
-                try
-                {
-                    _context.Update(emp);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EmpExists(emp.Eid))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
             }
-            return View(emp);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!EmpExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        // GET: Emps/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // POST: api/Emps
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost]
+        public async Task<ActionResult<Emp>> PostEmp(Emp emp)
         {
-            if (id == null)
+            _context.Emp.Add(emp);
+            try
             {
-                return NotFound();
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (EmpExists(emp.Eid))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            var emp = await _context.Emp
-                .FirstOrDefaultAsync(m => m.Eid == id);
+            return CreatedAtAction("GetEmp", new { id = emp.Eid }, emp);
+        }
+
+        // DELETE: api/Emps/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Emp>> DeleteEmp(int id)
+        {
+            var emp = await _context.Emp.FindAsync(id);
             if (emp == null)
             {
                 return NotFound();
             }
 
-            return View(emp);
-        }
-
-        // POST: Emps/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var emp = await _context.Emp.FindAsync(id);
             _context.Emp.Remove(emp);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return emp;
         }
 
         private bool EmpExists(int id)

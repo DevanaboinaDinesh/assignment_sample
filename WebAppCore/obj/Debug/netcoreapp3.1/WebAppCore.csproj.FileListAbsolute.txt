@@ -146,3 +146,13 @@ D:\SecondEx\WebAppCore\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.Workspa
 D:\SecondEx\WebAppCore\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\SecondEx\WebAppCore\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\SecondEx\WebAppCore\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\SecondEx\WebAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Emps\Create.cshtml.g.cs
+D:\SecondEx\WebAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Emps\Delete.cshtml.g.cs
+D:\SecondEx\WebAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Emps\Details.cshtml.g.cs
+D:\SecondEx\WebAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Emps\Edit.cshtml.g.cs
+D:\SecondEx\WebAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Emps\Index.cshtml.g.cs
+D:\SecondEx\WebAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Emps1\Create.cshtml.g.cs
+D:\SecondEx\WebAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Emps1\Delete.cshtml.g.cs
+D:\SecondEx\WebAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Emps1\Details.cshtml.g.cs
+D:\SecondEx\WebAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Emps1\Edit.cshtml.g.cs
+D:\SecondEx\WebAppCore\obj\Debug\netcoreapp3.1\Razor\Views\Emps1\Index.cshtml.g.cs
